@@ -20,7 +20,7 @@ export default function App() {
         {transform: [{rotate:'180deg'}],
       }}
       started={started}
-      startTime = {5000}
+      startTime = {300}
       active={whitePlayer}
       setActive={setWhitePlayer}
       >
@@ -30,7 +30,7 @@ export default function App() {
         {color:"black",
         backgroundColor: "black"
       }}
-      startTime = {5000}
+      startTime = {300}
       started = {started}
       active={!whitePlayer}
       setActive={setWhitePlayer}

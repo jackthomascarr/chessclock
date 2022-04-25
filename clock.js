@@ -14,29 +14,31 @@ const styles = {
     }
 }
 
-const children = ({ remainingTime }) => {
+const formatTime = ({ remainingTime }) => {
     const minutes = Math.floor(remainingTime / 60)
     const seconds = remainingTime % 60
+    const secondsString = seconds.toString().padStart('2', '0');
+
   
-    return `${minutes}:${seconds}`
+    return `${minutes}:${secondsString}`
   }
 
 const ClockComponent = ({startTime, started, textColor, active, setActive, style}) => {
     const [isPlaying, setIsPlaying] = useState(active && started);
-    const [time, setTime] = useState(startTime);
+    const remainingTime = startTime;
 
     return(
     <View style = {[{...style}, styles.clockContainer]}>
         <CountdownCircleTimer
         isPlaying={active}
-        duration={time}
+        duration={remainingTime}
         colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
         colorsTime={[10, 6, 3, 0]}
         onComplete={() => ({ shouldRepeat: true, delay: 2 })}
         >
         {({remainingTime, color }) => (
             <Text style={{ color, fontSize: 40 }}>
-            {remainingTime}
+            {formatTime({remainingTime})}
             </Text>
         )}
     </CountdownCircleTimer>
