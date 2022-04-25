@@ -1,27 +1,43 @@
 import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity,Button } from 'react-native';
 import ClockComponent from './clock';
+import { transform } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 
 export default function App() {
   const [started, setStarted] = useState(false);
-  const [player1Active, togglePlayer1] = useState(false);
-  const [player2Active, togglePlayer2] = useState(false);
+  const [whitePlayer, setWhitePlayer] = useState(true);
+  // white pieces clock will run when true
+  // black pieces clock will run when false
   
   return (
     <SafeAreaView style={styles.container}>
+      <TouchableOpacity
+      style={{flex: 1, width:"100%"}}
+      onPress={() => setWhitePlayer(!whitePlayer)}>
       <ClockComponent
-      startTime = "5:00"
-      active={player1Active}
-      color="white"
+      style={
+        {transform: [{rotate:'180deg'}],
+      }}
+      started={started}
+      startTime = {5000}
+      active={whitePlayer}
+      setActive={setWhitePlayer}
       >
       </ClockComponent>
       <ClockComponent
-      startTime = "5:00"
-      active={player2Active}
-      color="black"
+      style={
+        {color:"black",
+        backgroundColor: "black"
+      }}
+      startTime = {5000}
+      started = {started}
+      active={!whitePlayer}
+      setActive={setWhitePlayer}
+      textColor="white"
       >
       </ClockComponent>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -29,7 +45,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
