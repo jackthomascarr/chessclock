@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Button} from 'react-native';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
+// import Sound from 'react-native-sound';
+// import ticking from './sounds/clockTicking.mp3';
 
 const styles = {
     clockContainer: {
@@ -24,13 +26,23 @@ const formatTime = ({ remainingTime }) => {
   }
 
 const ClockComponent = ({startTime, started, textColor, active, setActive, style}) => {
-    const [isPlaying, setIsPlaying] = useState(active && started);
     const remainingTime = startTime;
+    // Sound.setCategory('Playback');
+    // var tick = new Sound(ticking, Sound.MAIN_BUNDLE, (error) => {
+    //     if (error) {
+    //       console.log('failed to load the sound', error);
+    //       return;
+    //     }
+    //     // when loaded successfully
+    //     console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
+    //   });
+
+    // tick.setVolume(1);
 
     return(
     <View style = {[{...style}, styles.clockContainer]}>
         <CountdownCircleTimer
-        isPlaying={active}
+        isPlaying={active && started}
         duration={remainingTime}
         colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
         colorsTime={[10, 6, 3, 0]}
