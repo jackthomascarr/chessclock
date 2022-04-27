@@ -44,7 +44,7 @@ const ClockComponent = ({startTime, started, textColor, active, setActive, style
         <CountdownCircleTimer
         isPlaying={active && started}
         duration={remainingTime}
-        colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+        colors={["#3477eb", "#F7B801", "#A30000", "#A30000"]}
         colorsTime={[10, 6, 3, 0]}
         onComplete={() => ({ shouldRepeat: true, delay: 2 })}
         >

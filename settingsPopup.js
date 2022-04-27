@@ -3,24 +3,27 @@ import { Button, Dialog, Portal, TextInput } from 'react-native-paper';
 
 const SettingsPage = ({visible, setVisible, whiteTime, setWhiteTime, blackTime, setBlackTime}) => {
     const [errors, setErrors] = useState([]);
-    const [whiteInput, setWhiteInput] = useState(whiteTime)
-    const [blackInput, setBlackInput] = useState(blackTime)
+    const [whiteInput, setWhiteInput] = useState(`${whiteTime}`)
+    const [blackInput, setBlackInput] = useState(`${blackTime}`)
     const hideDialog = () => setVisible(false);
     const okayHandler = () => {
-        validateTime(whiteTime, setWhiteTime)
-        validateTime(blackTime, setBlackTime)
+        let errors = [];
+        validateTime(whiteInput, setWhiteTime, errors)
+        validateTime(blackInput, setBlackTime, errors)
 
         if(errors.length == 0){
             setVisible(false);
         }
     }
-    const validateTime = (time, setTime) => {
+    const validateTime = (time, setTime, errors) => {
         try{
             const newTime = parseInt(time);
             setTime(newTime);
         }
         catch(err){
-            errors.push("Failed to validate time! Make sure you are entering time in seconds!");
+            console.log(err);
+            let error = "Failed to validate time!";
+            errors.push(error);
         }
     }
 
@@ -30,6 +33,7 @@ const SettingsPage = ({visible, setVisible, whiteTime, setWhiteTime, blackTime, 
         <Dialog.Content>
           <TextInput
           label="White Player Time (s)"
+          placeholder="Insert time in seconds"
           value={whiteInput}
           onChangeText={text => setWhiteInput(text)}
          />

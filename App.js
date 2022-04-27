@@ -1,21 +1,47 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity,Button } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
 import ClockComponent from './clock';
 import { transform } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import SettingsPage from './settingsPopup';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { Provider as PaperProvider, Button, Appbar } from 'react-native-paper';
+import { Icon, mdiCogOutline } from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default function App() {
   const [started, setStarted] = useState(false);
   const [whitePlayer, setWhitePlayer] = useState(true);
-  const [settingsVisible, setSettingsVisible] = useState(true);
-  const [whitePlayerTime, setWhitePlayerTime] = useState(300);
-  const [blackPlayerTime, setBlackPlayerTime] = useState(300);
+  const [settingsVisible, setSettingsVisible] = useState(false);
+  const [whitePlayerTime, setWhitePlayerTime] = useState(600);
+  const [blackPlayerTime, setBlackPlayerTime] = useState(600);
+
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    bar:{
+      backgroundColor: '#3477eb'
+    }
+  });
   // white clock will run when true
   // black clock will run when false
-  
+
+  const MiddleBar = () => { return started ? 
+  <Button style={styles.bar} icon="stop" mode="contained" onPress={() => setStarted(false)}>
+    end game bitch
+  </Button> :
+  <Appbar.Header style={styles.bar}>
+  <Appbar.Action icon="filter-variant"></Appbar.Action>
+  <Appbar.Content title="Chessclock++"/>
+  <Appbar.Action icon="cog" onPress={() => setSettingsVisible(true)}/>
+  </Appbar.Header>;}
+
   return (
+    <PaperProvider>
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
         style={{flex: 1, width:"100%"}}
@@ -27,43 +53,37 @@ export default function App() {
             {transform: [{rotate:'180deg'}],
           }}
           started={started}
-          startTime = {300}
+          startTime = {whitePlayerTime}
           active={whitePlayer}
           setActive={setWhitePlayer}
         ></ClockComponent>
-        
-        <PaperProvider>
+
+
+          <MiddleBar></MiddleBar>
+          
           <SettingsPage
             visible={settingsVisible}
             setVisible={setSettingsVisible}
             whiteTime={whitePlayerTime}
             setWhiteTime={setWhitePlayerTime}
-            blackPlayerTime={blackPlayerTime}
-            setBlackPlayerTime={setBlackPlayerTime}
+            blackTime={blackPlayerTime}
+            setBlackTime={setBlackPlayerTime}
           ></SettingsPage>
-        </PaperProvider>
-        
         <ClockComponent
           style={{
             color:"black",
             backgroundColor: "black"
           }}
-          startTime = {300}
           started = {started}
+          startTime = {blackPlayerTime}
           active={!whitePlayer}
           setActive={setWhitePlayer}
           textColor="white"
         ></ClockComponent>
-      
-      </TouchableOpacity>
+        </TouchableOpacity>
     </SafeAreaView>
+    </PaperProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
