@@ -32,7 +32,7 @@ export default function App() {
 
   const MiddleBar = () => { return started ? 
   <Button style={styles.bar} icon="stop" mode="contained" onPress={() => setStarted(false)}>
-    end game bitch
+    End Game
   </Button> :
   <Appbar.Header style={styles.bar}>
   <Appbar.Action icon="filter-variant"></Appbar.Action>
