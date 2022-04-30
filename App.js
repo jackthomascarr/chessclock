@@ -16,6 +16,7 @@ export default function App() {
   const [blackPlayerTime, setBlackPlayerTime] = useState(600);
   const [endedVisible, setEndedVisible] = useState(false);
   const [clockKey, setClockKey] = useState([0, 1]);
+  const [loser, setLoser] = useState(null);
 
 
   const windowWidth = Dimensions.get('window').width;
@@ -50,19 +51,26 @@ export default function App() {
     setClockKey(newArr);
   }
   const startClock = () => {
-    if(savedConfiguration === null){
-      let configuration = {
-        blackTime : blackPlayerTime,
-        whiteTime: whitePlayerTime
-      };
-    
-      setSavedConfiguration(configuration);
+    if(stage != "ended"){
+      if(savedConfiguration === null){
+        let configuration = {
+          blackTime : blackPlayerTime,
+          whiteTime: whitePlayerTime
+        };
+      
+        setSavedConfiguration(configuration);
+      }
+      let setPlayer = stage !== "paused" ? !whitePlayer : whitePlayer;
+      setWhitePlayer(setPlayer);
+      setStage("running");
     }
-    let setPlayer = stage !== "paused" ? !whitePlayer : whitePlayer;
-    setWhitePlayer(setPlayer);
-    setStage("running");
-  }
-
+    }
+    const endGame = () => {
+      setStage("ended");
+      setEndedVisible(true);
+      setWhitePlayer(true);
+    }
+  
   const MiddleBar = () => { 
     switch(stage){
       case "running":
@@ -70,18 +78,18 @@ export default function App() {
         Pause Game
       </Button>
       case "paused":
-        return <Button style={styles.bar} icon="stop" mode="contained" onPress={() => {setStage("ended"); setEndedVisible(true)}}>
+        return <Button style={styles.bar} icon="stop" mode="contained" onPress={endGame}>
         End Game, (Press on screen to resume)
         </Button>
       case "ended":
         return <Portal>
-        <Dialog visible={endedVisible} onDismiss={() => resetGame()}>
+        <Dialog visible={endedVisible} onDismiss={() => resetGame}>
           <Dialog.Content>
             <Title style={styles.title}>Save Game</Title>
             <Text>Press save if you want to save the game</Text>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={() => {resetGame()}}>Restart</Button>
+            <Button onPress={() => resetGame()}>Restart</Button>
             <Button onPress={() => {}}>Save</Button>
           </Dialog.Actions>
         </Dialog>
@@ -106,10 +114,14 @@ export default function App() {
             {transform: [{rotate:'180deg'}],
           }}
           stage={stage}
+          setStage={setStage}
           startTime = {whitePlayerTime}
           active={whitePlayer}
           setActive={setWhitePlayer}
           key={clockKey[0]}
+          setLoser={setLoser}
+          endGame={endGame}
+          setEndedVisible={setEndedVisible}
         ></ClockComponent>
           <MiddleBar></MiddleBar>
       
@@ -127,11 +139,15 @@ export default function App() {
             backgroundColor: "black"
           }}
           stage = {stage}
+          setStage={setStage}
           startTime = {blackPlayerTime}
           active={!whitePlayer}
           setActive={setWhitePlayer}
           textColor="white"
           key={clockKey[1]}
+          setWinner={setLoser}
+          endGame={endGame}
+          setEndedVisible={setEndedVisible}
         ></ClockComponent>
         </TouchableOpacity>
     </SafeAreaView>

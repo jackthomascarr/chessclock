@@ -25,7 +25,7 @@ const formatTime = ({ remainingTime }) => {
     return `${minutes}:${secondsString}`
   }
 
-const ClockComponent = ({startTime, stage, textColor, active, setActive, style, key}) => {
+const ClockComponent = ({startTime, stage, setStage, textColor, active, setActive, style, key, setLoser, endGame, setEndedVisible}) => {
     let running = stage === "running"
     // Sound.setCategory('Playback');
     // var tick = new Sound(ticking, Sound.MAIN_BUNDLE, (error) => {
@@ -47,7 +47,7 @@ const ClockComponent = ({startTime, stage, textColor, active, setActive, style, 
         duration={startTime}
         colors={["#3477eb", "#F7B801", "#A30000", "#A30000"]}
         colorsTime={[10, 6, 3, 0]}
-        onComplete={() => ({ shouldRepeat: true, delay: 2 })}
+        onComplete={() => {endGame(); setLoser(key)}}
         >
         {({remainingTime, color }) => (
             <Text style={{ color, fontSize: 40 }}>
