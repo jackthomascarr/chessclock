@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { List } from 'react-native-paper';
 
-const MyComponent = () => (
+const GameList = () => (
   <List.Item
     title="First Item"
     description="Item description"
@@ -9,4 +9,4 @@ const MyComponent = () => (
   />
 );
 
-export default MyComponent;
+export default GameList;
