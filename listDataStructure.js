@@ -13,6 +13,7 @@ let listFunctions = {
 
     addItem(list, setList, item){
         let id = Date.now();
+
     },
 
     saveToFile(list, outputDir){
