@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
 import ClockComponent from './clock';
@@ -6,6 +6,8 @@ import { transform } from 'react-native/Libraries/Components/View/ReactNativeSty
 import SettingsPage from './settingsPopup';
 import { Provider as PaperProvider, Button, Appbar, Text, Portal, Dialog, Title } from 'react-native-paper';
 import { Icon, mdiCogOutline } from 'react-native-vector-icons/MaterialCommunityIcons'
+import SaveGame from './SaveGame';
+import listFunctions from './listDataStructure'
 
 export default function App() {
   const [stage, setStage] = useState("configuring");
@@ -17,6 +19,13 @@ export default function App() {
   const [endedVisible, setEndedVisible] = useState(false);
   const [clockKey, setClockKey] = useState([0, 1]);
   const [loser, setLoser] = useState(null);
+  const [list, setList] = useState({});
+
+  // load list state
+  useEffect(async () => {
+    console.log("DID THIS CAUSE ERROR?");
+    await listFunctions.loadList(setList)
+  }, []);
 
 
   const windowWidth = Dimensions.get('window').width;
@@ -51,7 +60,7 @@ export default function App() {
     setClockKey(newArr);
   }
   const startClock = () => {
-    if(stage != "ended"){
+    if(stage !== "ended" && stage !== "saving"){
       if(savedConfiguration === null){
         let configuration = {
           blackTime : blackPlayerTime,
@@ -71,7 +80,7 @@ export default function App() {
       setWhitePlayer(true);
     }
   
-  const MiddleBar = () => { 
+  const StageView = () => { 
     switch(stage){
       case "running":
         return <Button style={styles.bar} icon="stop" mode="contained" onPress={() => setStage("paused")}>
@@ -90,10 +99,20 @@ export default function App() {
           </Dialog.Content>
           <Dialog.Actions>
             <Button onPress={() => resetGame()}>Restart</Button>
-            <Button onPress={() => {}}>Save</Button>
+            <Button onPress={() => {setStage("saving")}}>Save</Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
+      case "saving":
+        return <SaveGame
+        loser={loser}
+        setLoser={setLoser}
+        setStage={setStage}
+        list={list}
+        setList={setList}>
+        
+
+        </SaveGame>
       case "configuring":
       return  <Appbar.Header style={styles.bar}>
         <Appbar.Action icon="filter-variant"></Appbar.Action>
@@ -123,8 +142,7 @@ export default function App() {
           endGame={endGame}
           setEndedVisible={setEndedVisible}
         ></ClockComponent>
-          <MiddleBar></MiddleBar>
-      
+          <StageView></StageView>
           <SettingsPage
             visible={settingsVisible}
             setVisible={setSettingsVisible}
