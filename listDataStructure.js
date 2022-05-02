@@ -1,7 +1,6 @@
 import remoteFunctions from './remoteList'
 import _ from 'lodash'
 
-
 let listFunctions = {
     async updateItem(list, setList, key, newValues){
         let newList = _.cloneDeep(list);

@@ -27,18 +27,7 @@ const formatTime = ({ remainingTime }) => {
 
 const ClockComponent = ({startTime, stage, setStage, textColor, active, setActive, style, key, setLoser, endGame, setEndedVisible}) => {
     let running = stage === "running"
-    // Sound.setCategory('Playback');
-    // var tick = new Sound(ticking, Sound.MAIN_BUNDLE, (error) => {
-    //     if (error) {
-    //       console.log('failed to load the sound', error);
-    //       return;
-    //     }
-    //     // when loaded successfully
-    //     console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
-    //   });
-
-    // tick.setVolume(1);
-
+ 
     return(
     <View style = {[{...style}, styles.clockContainer]}>
         <CountdownCircleTimer
