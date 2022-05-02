@@ -17,9 +17,9 @@ import listFunctions from "./listDataStructure";
 import geoLocation from './geolocation'
 import CameraApp from "./Camera";
 
-const SaveGame = ({ list, setList, loser, setLoser, setStage }) => {
+const SaveGame = ({ list, setList, loser, setStage, whiteTime, blackTime }) => {
   const [gameData, setGameData] = useState({});
-  const [formState, setFormState] = useState({ loser: "0" });
+  const [formState, setFormState] = useState({});
   const [visible, setVisible] = useState(true);
   const [whitePlayerName, setWhitePlayerName] = useState("");
   const [blackPlayerName, setBlackPlayerName] = useState("");
@@ -63,13 +63,13 @@ const SaveGame = ({ list, setList, loser, setLoser, setStage }) => {
         <View style={styles.radioView}>
           <RadioButton.Item
             label="White"
-            value="0"
+            value="White"
             color={"#3477eb"}
             mode="android"
           />
           <RadioButton.Item
             label="Black"
-            value="1"
+            value="Black"
             color={"#3477eb"}
             mode="android"
           />
@@ -103,19 +103,21 @@ const SaveGame = ({ list, setList, loser, setLoser, setStage }) => {
       whitePlayer: whitePlayerName,
       location: "",
       picture: null,
-      whitePlayerTime: 0,
-      blackPlayerTime:0,
-      winner: "WHO"
+      whitePlayerTime: whiteTime,
+      blackPlayerTime:blackTime,
+      winner: gameData.loser
 
     }
     if(saveLocation){
       item.location = geoLocation.getCurrentLocation()
     }
+
     if(gameData.photo){
       item.picture = gameData.photo
     }
-    item.blackPlayer = blackPlayerName;
-    item.whitePlayer = whitePlayerName;
+    if(!gameData.loser){
+      gameData.loser = loser % 2 ? "Black" : "White";
+    }
 
     listFunctions.addItem(list, setList, item)
   }

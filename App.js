@@ -23,7 +23,6 @@ export default function App() {
 
   // load list state
   useEffect(async () => {
-    console.log("DID THIS CAUSE ERROR?");
     await listFunctions.loadList(setList)
   }, []);
 
@@ -109,9 +108,9 @@ export default function App() {
         setLoser={setLoser}
         setStage={setStage}
         list={list}
-        setList={setList}>
-        
-
+        setList={setList}
+        whiteTime={whitePlayerTime}
+        blackTime={blackPlayerTime}>
         </SaveGame>
       case "configuring":
       return  <Appbar.Header style={styles.bar}>
