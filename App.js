@@ -26,6 +26,12 @@ export default function App() {
     await listFunctions.loadList(setList)
   }, []);
 
+  useEffect(() => {
+    if(stage === "configuring"){
+      resetGame();
+    }
+  }, [stage])
+
 
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
@@ -113,7 +119,6 @@ export default function App() {
         blackTime={blackPlayerTime}>
         </SaveGame>
       case "configuring":
-        resetGame();
       return  <Appbar.Header style={styles.bar}>
         <Appbar.Action icon="filter-variant"></Appbar.Action>
         <Appbar.Content title="Chessclock++"/>
