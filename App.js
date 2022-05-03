@@ -5,6 +5,7 @@ import SettingsPage from './settingsPopup';
 import { Provider as PaperProvider, Button, Appbar, Text, Portal, Dialog, Title } from 'react-native-paper';
 import SaveGame from './SaveGame';
 import GameList from './List';
+import listFunctions from './listDataStructure'
 
 export default function App() {
   const [stage, setStage] = useState("configuring");
@@ -21,6 +22,7 @@ export default function App() {
   // load list state
   useEffect(async () => {
     await listFunctions.loadList(setList)
+    console.log(list);
   }, []);
 
   useEffect(() => {
@@ -127,10 +129,7 @@ export default function App() {
           list={list}
           setList={setList}>
           </GameList>
-      }
-
-      
-
+    }
   }
 
   return (

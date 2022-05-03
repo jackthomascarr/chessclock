@@ -1,18 +1,20 @@
 import * as React from 'react';
 import {useState} from 'react'
-import { List } from 'react-native-paper';
+import { List, Text } from 'react-native-paper';
+import { View, Image } from 'react-native';
 
 const MyComponent = ({item}) => {
     const [open, setOpen] = useState(false);
 
     return(
-    <List.Accordion
+    <List.Accordion key={item.id}
       title={new Date(item.id).toString()}
       
       left={props => <List.Icon {...props} icon="folder" />}>
+     
      <View>
-        <p>{item.whitePlayer}</p>
-        <p>{item.blackPlayer}</p>
+        <Text>HELLO</Text>
+        <Text>{item.blackPlayer}</Text>
      </View>
     </List.Accordion>
     )
