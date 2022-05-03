@@ -19,7 +19,7 @@ import CameraApp from "./Camera";
 
 const SaveGame = ({ list, setList, loser, setStage, whiteTime, blackTime }) => {
   const [gameData, setGameData] = useState({});
-  const [formState, setFormState] = useState({});
+  const [formState, setFormState] = useState({loser: "White"});
   const [visible, setVisible] = useState(true);
   const [whitePlayerName, setWhitePlayerName] = useState("");
   const [blackPlayerName, setBlackPlayerName] = useState("");
@@ -140,14 +140,16 @@ const SaveGame = ({ list, setList, loser, setStage, whiteTime, blackTime }) => {
                 <View style={[styles.textGroup, { marginTop: 5 }]}>
                   <Text>White Player Name</Text>
                   <TextInput
-                    onChangeText={(value) => setWhitePlayerName(value)}
+                    onChange={(value) => setWhitePlayerName(value)}
+                    value={whitePlayerName}
                   ></TextInput>
                 </View>
 
                 <View style={styles.textGroup}>
                   <Text>Black Player Name</Text>
                   <TextInput
-                    onChangeText={(value) => setWhitePlayerName(value)}
+                    onChange={(value) => setBlackPlayerName(value)}
+                    value={blackPlayerName}
                   ></TextInput>
                   <Divider></Divider>
                   <LoserForm></LoserForm>
