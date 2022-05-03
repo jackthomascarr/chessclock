@@ -21,7 +21,7 @@ const SaveGame = ({ list, setList, loser, setStage, whiteTime, blackTime }) => {
   const [gameData, setGameData] = useState({});
   const [formState, setFormState] = useState({loser: "White"});
   const [visible, setVisible] = useState(true);
-  const [whitePlayerName, setWhitePlayerName] = useState("");
+  const [whitePlayerNam, setWhitePlayerNam] = useState("");
   const [blackPlayerName, setBlackPlayerName] = useState("");
   const [saveLocation, setSaveLocation] = useState(true);
   const [showCamera, setCamera] = useState(false);
@@ -130,6 +130,7 @@ const SaveGame = ({ list, setList, loser, setStage, whiteTime, blackTime }) => {
           visible={visible}
           onDismiss={() => {
             setVisible(false);
+            setStage("configuring")
           }}
         >
           <Dialog.ScrollArea>
@@ -140,15 +141,15 @@ const SaveGame = ({ list, setList, loser, setStage, whiteTime, blackTime }) => {
                 <View style={[styles.textGroup, { marginTop: 5 }]}>
                   <Text>White Player Name</Text>
                   <TextInput
-                    onChange={(value) => setWhitePlayerName(value)}
-                    value={whitePlayerName}
+                    onChangeText={value => setWhitePlayerNam(value)}
+                    value={whitePlayerNam}
                   ></TextInput>
                 </View>
 
                 <View style={styles.textGroup}>
                   <Text>Black Player Name</Text>
                   <TextInput
-                    onChange={(value) => setBlackPlayerName(value)}
+                    onChangeText={value => setBlackPlayerName(value)}
                     value={blackPlayerName}
                   ></TextInput>
                   <Divider></Divider>
