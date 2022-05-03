@@ -118,7 +118,7 @@ const SaveGame = ({ list, setList, loser, setStage, whiteTime, blackTime }) => {
     if(!gameData.loser){
       gameData.loser = loser % 2 ? "Black" : "White";
     }
-    setStage("Configuring")
+    setStage("configuring")
 
     listFunctions.addItem(list, setList, item)
   }
