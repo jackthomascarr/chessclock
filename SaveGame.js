@@ -109,14 +109,14 @@ const SaveGame = ({ list, setList, loser, setStage, whiteTime, blackTime }) => {
 
     }
     if(saveLocation){
-      item.location = geoLocation.getCurrentLocation()
+      item.location = await geoLocation.getCurrentLocation()
     }
 
     if(gameData.photo){
       item.picture = gameData.photo
     }
     if(!gameData.loser){
-      gameData.loser = loser % 2 ? "Black" : "White";
+      item.winner = loser % 2 ? "Black" : "White";
     }
     setStage("configuring")
 

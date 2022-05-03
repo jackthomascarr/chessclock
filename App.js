@@ -22,7 +22,6 @@ export default function App() {
   // load list state
   useEffect(async () => {
     await listFunctions.loadList(setList)
-    console.log(list);
   }, []);
 
   useEffect(() => {
@@ -127,7 +126,8 @@ export default function App() {
         case "list":
           return <GameList
           list={list}
-          setList={setList}>
+          setList={setList}
+          setStage={setStage}>
           </GameList>
     }
   }
