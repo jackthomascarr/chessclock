@@ -8,9 +8,9 @@ import {
   Title,
   Text,
   RadioButton,
-  TextInput,
   Divider,
   Checkbox,
+  TextInput,
 } from "react-native-paper";
 import { useState } from "react";
 import listFunctions from "./listDataStructure";
@@ -21,7 +21,7 @@ const SaveGame = ({ list, setList, loser, setStage, whiteTime, blackTime }) => {
   const [gameData, setGameData] = useState({});
   const [formState, setFormState] = useState({loser: "White"});
   const [visible, setVisible] = useState(true);
-  const [whitePlayerNam, setWhitePlayerNam] = useState("");
+  const [whitePlayerName, setWhitePlayerName] = useState("");
   const [blackPlayerName, setBlackPlayerName] = useState("");
   const [saveLocation, setSaveLocation] = useState(true);
   const [showCamera, setCamera] = useState(false);
@@ -122,82 +122,77 @@ const SaveGame = ({ list, setList, loser, setStage, whiteTime, blackTime }) => {
 
     listFunctions.addItem(list, setList, item)
   }
-    
-  const SaveView = () => {
-    return showCamera === false ? (
-      <Portal>
-        <Dialog
-          visible={visible}
-          onDismiss={() => {
-            setVisible(false);
-            setStage("configuring")
-          }}
-        >
-          <Dialog.ScrollArea>
-            <Title style={styles.centerTitle}>Save Game</Title>
+
+  return ( !showCamera ? <Portal>
+  <Dialog
+    visible={true}
+    onDismiss={() => {
+      setVisible(false);
+      setStage("configuring")
+    }}
+  >
+    <Dialog.ScrollArea>
+      <Title style={styles.centerTitle}>Save Game</Title>
+      <Divider></Divider>
+      <ScrollView>
+        <View>
+          <View style={[styles.textGroup, { marginTop: 5 }]}>
+            <Text>White Player Name</Text>
+            <TextInput
+              onChangeText={value => setWhitePlayerName(value)}
+              value={whitePlayerName}
+            ></TextInput>
+          </View>
+          <View style={styles.textGroup}>
+            <Text>Black Player Name</Text>
+            <TextInput
+              value={blackPlayerName}
+              onChangeText={(text) => {setBlackPlayerName(text)}}
+            ></TextInput>
             <Divider></Divider>
-            <ScrollView>
-              <View>
-                <View style={[styles.textGroup, { marginTop: 5 }]}>
-                  <Text>White Player Name</Text>
-                  <TextInput
-                    onChangeText={value => setWhitePlayerNam(value)}
-                    value={whitePlayerNam}
-                  ></TextInput>
-                </View>
+            <LoserForm></LoserForm>
+            </View>
 
-                <View style={styles.textGroup}>
-                  <Text>Black Player Name</Text>
-                  <TextInput
-                    onChangeText={value => setBlackPlayerName(value)}
-                    value={blackPlayerName}
-                  ></TextInput>
-                  <Divider></Divider>
-                  <LoserForm></LoserForm>
+            <Checkbox.Item
+              label="Save Location"
+              status={saveLocation ? "checked" : "unchecked"}
+              mode="android"
+              color={"#3477eb"}
+              onPress={() => {
+                setSaveLocation(!saveLocation);
+              }}
+            />
 
-                  <Checkbox.Item
-                    label="Save Location"
-                    status={saveLocation ? "checked" : "unchecked"}
-                    mode="android"
-                    color={"#3477eb"}
-                    onPress={() => {
-                      setSaveLocation(!saveLocation);
-                    }}
-                  />
-
-                  <Button
-                    onPress={() => {
-                      setCamera(true);
-                    }}
-                  >
-                    Take a Picture!
-                  </Button>
-                  <PreviewImage></PreviewImage>
-                </View>
-              </View>
-            </ScrollView>
-          </Dialog.ScrollArea>
-          <Dialog.Actions>
             <Button
               onPress={() => {
-                cancel();
+                setCamera(true);
               }}
             >
-              Cancel
+              Take a Picture!
             </Button>
-            <Button onPress={async () => {await saveForm()}}>Save Game</Button>
-          </Dialog.Actions>
-        </Dialog>
-        </Portal>
-    ) : 
-        <CameraApp
+            <PreviewImage></PreviewImage>
+          </View>
+      </ScrollView>
+    </Dialog.ScrollArea>
+    <Dialog.Actions>
+      <Button
+        onPress={() => {
+          cancel();
+        }}
+      >
+        Cancel
+      </Button>
+      <Button onPress={async () => {await saveForm()}}>Save Game</Button>
+    </Dialog.Actions>
+  </Dialog>
+  </Portal> :
+
+  <CameraApp
         saveData={gameData}
         setSaveData={setGameData}
         cameraVisible={showCamera}
         setCamera={setCamera}
-        ></CameraApp>
-  };
-  return <SaveView></SaveView>;
+        ></CameraApp>);
 };
 
 export default SaveGame;

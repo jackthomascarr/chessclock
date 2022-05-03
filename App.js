@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
 import ClockComponent from './clock';
-import { transform } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import SettingsPage from './settingsPopup';
 import { Provider as PaperProvider, Button, Appbar, Text, Portal, Dialog, Title } from 'react-native-paper';
-import { Icon, mdiCogOutline } from 'react-native-vector-icons/MaterialCommunityIcons'
 import SaveGame from './SaveGame';
-import listFunctions from './listDataStructure'
+import GameList from './List';
 
 export default function App() {
   const [stage, setStage] = useState("configuring");
@@ -120,10 +117,20 @@ export default function App() {
         </SaveGame>
       case "configuring":
       return  <Appbar.Header style={styles.bar}>
-        <Appbar.Action icon="filter-variant"></Appbar.Action>
+        <Appbar.Action icon="filter-variant" onPress={() => setStage("list")}></Appbar.Action>
         <Appbar.Content title="Chessclock++"/>
         <Appbar.Action icon="cog" onPress={() => setSettingsVisible(true)}/>
-        </Appbar.Header>;}
+        </Appbar.Header>;
+        
+        case "list":
+          return <GameList
+          list={list}
+          setList={setList}>
+          </GameList>
+      }
+
+      
+
   }
 
   return (
